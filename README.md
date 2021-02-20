@@ -9,11 +9,9 @@ Working:
  - Start/end position (possible)
  - Map rooms difficulty progression
  - Placeholders for tile-rooms
+ - Layout scaling
 
 
 TODO:
- - Figure out what's wrong with room connections
- - Determine json format for tile-rooms
  - Make an example tileset
- - Coins inside placeholder rooms?
  - Hire someone to make tiles
