@@ -15,7 +15,7 @@ def PrintLayout(l):
 			print("%02d" % (l[r][c]), end = "")
 		print()
 
-def GenerateLayout(mapx = 100, mapy = 100, mapbordpadding = 24, roomlen = 50):
+def GenerateLayout(mapx = 150, mapy = 150, mapbordpadding = 30, roomlen = 50):
 	layout = []
 	for i in range(mapy):
 		layer = []
@@ -46,7 +46,13 @@ def GenerateLayout(mapx = 100, mapy = 100, mapbordpadding = 24, roomlen = 50):
 	return layout
 
 def LayoutStripper(l):
-	r=0
+	s = 0
+	for r in range(len(l)):
+		for c in range(len(l[r])):
+			s += l[r][c]
+	if s == 0:
+		raise Exception('Empty-tileset', 'Nothing to trim!')
+	r = 0
 	while r < len(l):
 		s = 0
 		c = 0
@@ -73,11 +79,10 @@ def LayoutStripper(l):
 			c += 1
 	return l
 
-def GenerateEmptyTileWithDirs(rt = 5, ct = 5, s = "udl"):
+def GenerateEmptyTileWithDirs(rt = 5, ct = 5, s = "udlr"):
 	if rt < 3 or ct < 3:
 		raise Exception('Too-small', 'Tile must be at least 3x3')
 	if s == "":
-		print(["#"*ct]*rt)
 		return ["#"*ct]*rt
 	firstrow = "#" * ct
 	if "u" in s:
@@ -91,6 +96,8 @@ def GenerateEmptyTileWithDirs(rt = 5, ct = 5, s = "udl"):
 			nrow[0] = ord(' ')
 		if "r" in s and int(rt/2) == r+1:
 			nrow[ct-1] = ord(' ')
+		if randrange(3) == 1 and int(rt/2) == r+1:
+			nrow[int(ct/2)] = ord('1')
 		o.append(nrow.decode("utf-8"))
 	lastrow = "#" * ct
 	if "d" in s:
@@ -100,9 +107,12 @@ def GenerateEmptyTileWithDirs(rt = 5, ct = 5, s = "udl"):
 	o.append(lastrow)
 	return o
 
-def FindSingleTileInDataset(d, s):
+def OpenParseDataset(n):
 	with open("tileset1.json5") as t:
 		print(json5.load(t))
+
+def FindSingleTileInDataset(d, s):
+	a = 0
 
 def RealizeLayout(l, t):
 	mapgenrows = 3
@@ -125,13 +135,9 @@ def RealizeLayout(l, t):
 				map[r*mapgenrows+i] += tile[i]
 	pprint(map)
 
-
-
-
 if __name__ == "__main__":
 	print("Generating initial layout")
 	l = GenerateLayout()
-	PrintLayout(l)
 	print("Stripping empty space")
 	l = LayoutStripper(l)
 	PrintLayout(l)
