@@ -133,7 +133,8 @@ def RealizeLayout(l, t):
 			tile = GenerateEmptyTileWithDirs(rt = mapgenrows, ct = mapgencols, s = dirs)
 			for i in range(mapgenrows):
 				map[r*mapgenrows+i] += tile[i]
-	pprint(map)
+	for r in range(len(map)):
+		print(map[r])
 
 if __name__ == "__main__":
 	print("Generating initial layout")
