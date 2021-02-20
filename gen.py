@@ -15,7 +15,7 @@ def PrintLayout(l):
 			print("%02d" % (l[r][c]), end = "")
 		print()
 
-def GenerateLayout(mapx = 10, mapy = 10, mapbordpadding = 4, roomlen = 17):
+def GenerateLayout(mapx = 100, mapy = 100, mapbordpadding = 24, roomlen = 50):
 	layout = []
 	for i in range(mapy):
 		layer = []
@@ -98,28 +98,28 @@ def GenerateEmptyTileWithDirs(rt = 5, ct = 5, s = "udl"):
 		ba[int(rt/2)] = ord(' ')
 		lastrow = ba.decode("utf-8")
 	o.append(lastrow)
-	pprint(o)
 	return o
 
+def FindSingleTileInDataset(d, s):
+	with open("tileset1.json5") as t:
+		print(json5.load(t))
+
 def RealizeLayout(l, t):
-	# with open(t) as tileset_file:
-	# 	t = json5.load(tileset_file)
-	# 	pprint(t)
-	mapgenrows = 5
-	mapgencols = 5
+	mapgenrows = 3
+	mapgencols = 3
 	map = [""]*(len(l)*mapgenrows);
 	for r in range(len(l)):
-		nowrow = [[""]*len(l[r])]
 		for c in range(len(l[r])):
 			dirs = ""
-			if r > 0 and l[r-1][c] != 0:
-				dirs += "u"
-			if c > 0 and l[r][c-1] != 0:
-				dirs += "l"
-			if r+1 < len(l) and l[r+1][c] != 0:
-				dirs += "d"
-			if c+1 < len(l[r]) and l[r][c+1] != 0:
-				dirs += "r"
+			if l[r][c] != 0:
+				if r-1 >= 0 and l[r-1][c] != 0:
+					dirs += "u"
+				if c-1 >= 0 and l[r][c-1] != 0:
+					dirs += "l"
+				if r+1 < len(l) and l[r+1][c] != 0:
+					dirs += "d"
+				if c+1 < len(l[r]) and l[r][c+1] != 0:
+					dirs += "r"
 			tile = GenerateEmptyTileWithDirs(rt = mapgenrows, ct = mapgencols, s = dirs)
 			for i in range(mapgenrows):
 				map[r*mapgenrows+i] += tile[i]
