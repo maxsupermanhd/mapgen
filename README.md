@@ -13,5 +13,10 @@ Working:
 
 
 TODO:
- - Make an example tileset
  - Hire someone to make tiles
+ - Do actual tile matching algorithm
+
+Customize:
+ - Layout size, generation steps and offsets can be changed in arguments to `GenerateLayout` function
+ - Stripping of layout is optional, however it will consume more space+time
+ - Placeholder-rooms are completly optional, size can be changed in `RealizeLayout` function
